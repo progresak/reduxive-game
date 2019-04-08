@@ -1,5 +1,5 @@
 import store from '../../config/store';
-import {MAP_HEIGHT, MAP_WIDTH, SPRITE_SIZE} from "../../config/constants";
+import {SPRITE_SIZE} from "../../config/constants";
 
 const handleMovement = (player) => {
 
@@ -18,9 +18,9 @@ const handleMovement = (player) => {
         }
     };
 
-    const observeBoundaries = (oldPos, newPos) => {
-        return (newPos[0] >= 0 && newPos[0] <= MAP_WIDTH - SPRITE_SIZE) &&
-            (newPos[1] >= 0 && newPos[1] <= MAP_HEIGHT - SPRITE_SIZE)
+    const observeBoundaries = (oldPos, newPos, mapSize) => {
+        return (newPos[0] >= 0 && newPos[0] <= mapSize[0] - SPRITE_SIZE) &&
+            (newPos[1] >= 0 && newPos[1] <= mapSize[1] - SPRITE_SIZE)
     };
 
 
@@ -66,10 +66,18 @@ const handleMovement = (player) => {
         }
     };
 
+    const walkThroughBorders = (newPos, mapSize) => {
+        return [
+            ((newPos[0] >= mapSize[0]) ? 0 : (newPos[0] < 0) ? mapSize[0] - SPRITE_SIZE : newPos[0]),
+            ((newPos[1] >= mapSize[1]) ? 0 : (newPos[1] < 0) ? mapSize[1] - SPRITE_SIZE : newPos[1]),
+        ]
+    };
+
     const attemptMove = (direction) => {
         const oldPos = store.getState().player.position;
-        const newPos = getNewPosition(oldPos, direction);
-        if (observeBoundaries(oldPos, newPos) && observeImpossable(oldPos, newPos)) {
+        const mapSize = store.getState().map.mapSize;
+        const newPos = walkThroughBorders(getNewPosition(oldPos, direction), mapSize);
+        if (observeImpossable(oldPos, newPos)) {
             dispatchMove(direction, newPos);
         }
     };
@@ -94,12 +102,30 @@ const handleMovement = (player) => {
                 e.preventDefault();
                 return attemptMove('SOUTH');
             default:
-                console.log(e.keyCode)
+
         }
     };
 
+    let fired = {};
+
+    // const isInversionMove = (fired) => {
+    //     return ((fired[65] || fired[37]) && (fired[68] || fired[39]));
+    // };
+
     window.addEventListener('keydown', (e) => {
-        handleKeydown(e);
+
+        if (!fired[e.keyCode]) {
+            fired[e.keyCode] = true;
+            let actualMove = setInterval(() => {
+                handleKeydown(e);
+            }, 1000 / 25);
+            window.addEventListener('keyup', (e) => {
+                e.preventDefault();
+                fired[e.keyCode] = false;
+                clearInterval(actualMove);
+            });
+        }
+
     });
 
     return player;

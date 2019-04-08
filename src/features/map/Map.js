@@ -41,9 +41,8 @@ const MapRow = (props) => {
 const Map = (props) => {
     return (
         <div style={{
-            width: '800px',
-            height: '480px',
-            backgroundColor: 'black',
+            width: `${props.mapSize[0]}px`,
+            height: `${props.mapSize[1]}px`,
             margin: 'auto',
             border: '4px solid white'
         }}>{props.tiles.map(row => <MapRow
@@ -55,7 +54,8 @@ const Map = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        tiles: state.map.tiles
+        tiles: state.map.tiles,
+        mapSize: state.map.mapSize
     }
 };
 
