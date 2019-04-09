@@ -1,8 +1,10 @@
 .tile {
     display: inline-flex;
-    background-color: #42b842;
+    background-color: transparent;
 }
-
+.mapContainer {
+    background-image: url('./fancy-cushion.png');
+}
 .row {
     height: 40px;
 }

@@ -1,11 +1,11 @@
 const getRandomTile = () => {
-    const tilesIndexes = [0, 3, 4, 5, 6];
+    const tilesIndexes = [0, 3, 4, 5, 6, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0];
     return tilesIndexes[Math.floor(Math.random() * tilesIndexes.length)];
 
 };
 
 export const generateDynamicMap = (width, height) => {
-    console.log({width, height})
+    console.log({width, height});
     const map = [];
     for (let y = 0; y < height; y++) {
         map[y] = [];

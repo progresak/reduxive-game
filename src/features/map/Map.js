@@ -40,7 +40,7 @@ const MapRow = (props) => {
 
 const Map = (props) => {
     return (
-        <div style={{
+        <div className={'mapContainer'} style={{
             width: `${props.mapSize[0]}px`,
             height: `${props.mapSize[1]}px`,
             margin: 'auto',
