@@ -7,6 +7,8 @@ const getTileSprite = (type) => {
     switch (type) {
         case 0:
             return 'grass';
+        case 1:
+            return 'bomb';
         case 3:
             return 'tree';
         case 4:
@@ -31,10 +33,10 @@ const MapTile = (props) => {
 const MapRow = (props) => {
     return (
         <div className={'row'}>{props.tiles.map(tile =>
-                <MapTile
-                    tile={tile}
-                    key={Math.random()}
-                />)}</div>
+            <MapTile
+                tile={tile}
+                key={Math.random()}
+            />)}</div>
     );
 }
 
@@ -46,9 +48,9 @@ const Map = (props) => {
             margin: 'auto',
             border: '4px solid white'
         }}>{props.tiles.map(row => <MapRow
-                    tiles={row}
-                    key={Math.random()}
-                />)}</div>
+            tiles={row}
+            key={Math.random()}
+        />)}</div>
     )
 };
 

@@ -1,5 +1,5 @@
 const getRandomTile = () => {
-    const tilesIndexes = [0, 3, 4, 5, 6, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0, 0];
+    const tilesIndexes = [0, 3, 4, 5, 0,0,0,0,0,0,0,0,0,0,0];
     return tilesIndexes[Math.floor(Math.random() * tilesIndexes.length)];
 
 };
