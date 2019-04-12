@@ -30,3 +30,7 @@
     background-image: url('./tiles/bomb.svg');
     background-size: 40px 40px;
 }
+.explosion {
+    background-image: url('./tiles/explosion.png');
+    background-size: 40px 40px;
+}

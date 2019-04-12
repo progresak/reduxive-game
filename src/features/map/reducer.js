@@ -11,20 +11,12 @@ const mapReducer = (state = initialState, action) => {
             return {
                 ...action.payload
             };
-        case 'PLACE_BOMB':
-
-            const xIndex = action.payload.position[0] / SPRITE_SIZE;
-            const yIndex = action.payload.position[1] / SPRITE_SIZE;
-            console.log({xIndex, yIndex})
-            // state[yIndex][xIndex] = 1;
-            // return state.tiles.map(el => el)
-            // const [y, x] = [yIndex, xIndex];
+        case 'REPLACE_TILES':
+            return {...state, tiles: action.payload.tiles};
+        case 'PLACE_OBJECT':
             const newTiles = Array.from(state.tiles);
-            newTiles[yIndex][xIndex] = 1;
-
-
+            newTiles[action.payload.position[1] / SPRITE_SIZE][action.payload.position[0] / SPRITE_SIZE] = action.payload.object;
             return {...state, tiles: newTiles};
-// console.log(xx);;
         default:
             return state;
     }

@@ -1,8 +1,5 @@
-const getRandomTile = () => {
-    const tilesIndexes = [0, 3, 4, 5, 0,0,0,0,0,0,0,0,0,0,0];
-    return tilesIndexes[Math.floor(Math.random() * tilesIndexes.length)];
+import {getRandomMapTile} from "../../../features/map/MapTile";
 
-};
 
 export const generateDynamicMap = (width, height) => {
     console.log({width, height});
@@ -10,7 +7,7 @@ export const generateDynamicMap = (width, height) => {
     for (let y = 0; y < height; y++) {
         map[y] = [];
         for (let x = 0; x < width; x++) {
-            map[y][x] = getRandomTile()
+            map[y][x] = getRandomMapTile()
         }
     }
     return map;

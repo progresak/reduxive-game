@@ -1,34 +1,7 @@
 import React from 'react';
-import {SPRITE_SIZE} from "../../config/constants";
 import {connect} from "react-redux";
 import './styles.css';
-
-const getTileSprite = (type) => {
-    switch (type) {
-        case 0:
-            return 'grass';
-        case 1:
-            return 'bomb';
-        case 3:
-            return 'tree';
-        case 4:
-            return 'chest';
-        case 5:
-            return 'rock';
-        case 6:
-            return 'tree';
-        default:
-        // return "grass";
-    }
-};
-
-const MapTile = (props) => {
-    return <div
-        className={`tile ${getTileSprite(props.tile)}`}
-        style={{height: SPRITE_SIZE, width: SPRITE_SIZE}}
-        key={Math.random()}
-    />
-};
+import MapTile from "./MapTile";
 
 const MapRow = (props) => {
     return (
@@ -38,7 +11,7 @@ const MapRow = (props) => {
                 key={Math.random()}
             />)}</div>
     );
-}
+};
 
 const Map = (props) => {
     return (
