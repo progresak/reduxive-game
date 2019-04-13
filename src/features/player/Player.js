@@ -2,8 +2,14 @@ import React from 'react';
 import playerWalk from './player_walk.png';
 import {connect} from "react-redux";
 import handleMovement from './movement';
+import handleControl from "./control";
 
 const Player = (props) => {
+
+    if (props.gameOver) {
+        return null;
+    }
+
     return (
         <div style={{
             position: 'absolute',
@@ -25,4 +31,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(handleMovement(Player));
+export default connect(mapStateToProps)(handleControl(handleMovement(Player)));

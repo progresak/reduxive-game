@@ -1,6 +1,10 @@
 .tile {
     display: inline-flex;
-    background-color: #42b842;
+    background-color: transparent;
+}
+
+.mapContainer {
+    background-image: url('./fancy-cushion.png');
 }
 
 .row {
@@ -20,4 +24,16 @@
 
 .chest {
     background-image: url('./tiles/chest.png');
+}
+.hamster {
+    background-image: url('./tiles/hamster-ball.svg');
+}
+
+.bomb {
+    background-image: url('./tiles/bomb.svg');
+    background-size: 40px 40px;
+}
+.explosion {
+    background-image: url('./tiles/explosion.png');
+    background-size: 40px 40px;
 }

@@ -1,0 +1,19 @@
+.scoreBoard {
+
+    height: 50px;
+    border-bottom: 4px solid white;
+    border-left: 4px solid white;
+    border-right: 4px solid white;
+    width: 98%;
+    color:white;
+    line-height: 50px;
+    padding-left:1%;
+    padding-right:1%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.scoreBoard span {
+    font-size: 26px;
+    display:flex;
+}

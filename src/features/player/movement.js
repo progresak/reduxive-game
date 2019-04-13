@@ -1,5 +1,6 @@
 import store from '../../config/store';
-import {MAP_HEIGHT, MAP_WIDTH, SPRITE_SIZE} from "../../config/constants";
+import {SPRITE_SIZE} from "../../config/constants";
+import {customTile} from "../map/MapTile";
 
 const handleMovement = (player) => {
 
@@ -17,19 +18,19 @@ const handleMovement = (player) => {
                 return oldPos;
         }
     };
-
-    const observeBoundaries = (oldPos, newPos) => {
-        return (newPos[0] >= 0 && newPos[0] <= MAP_WIDTH - SPRITE_SIZE) &&
-            (newPos[1] >= 0 && newPos[1] <= MAP_HEIGHT - SPRITE_SIZE)
-    };
-
+    /*
+        const observeBoundaries = (oldPos, newPos, mapSize) => {
+            return (newPos[0] >= 0 && newPos[0] <= mapSize[0] - SPRITE_SIZE) &&
+                (newPos[1] >= 0 && newPos[1] <= mapSize[1] - SPRITE_SIZE)
+        };
+    */
 
     const observeImpossable = (oldPos, newPos) => {
         const tiles = store.getState().map.tiles;
         const y = newPos[1] / SPRITE_SIZE;
         const x = newPos[0] / SPRITE_SIZE;
         const nextTile = tiles[y][x];
-        return nextTile < 5;
+        return nextTile.type < 5 || nextTile.type === 11;
     };
 
     const getWalkIndex = () => {
@@ -66,12 +67,53 @@ const handleMovement = (player) => {
         }
     };
 
+    const walkThroughBorders = (newPos, mapSize) => {
+        return [
+            ((newPos[0] >= mapSize[0]) ? 0 : (newPos[0] < 0) ? mapSize[0] - SPRITE_SIZE : newPos[0]),
+            ((newPos[1] >= mapSize[1]) ? 0 : (newPos[1] < 0) ? mapSize[1] - SPRITE_SIZE : newPos[1]),
+        ]
+    };
+
     const attemptMove = (direction) => {
         const oldPos = store.getState().player.position;
-        const newPos = getNewPosition(oldPos, direction);
-        if (observeBoundaries(oldPos, newPos) && observeImpossable(oldPos, newPos)) {
+        const bombPower = store.getState().player.bombPower;
+        const mapSize = store.getState().map.mapSize;
+        const newPos = walkThroughBorders(getNewPosition(oldPos, direction), mapSize);
+        if (observeImpossable(oldPos, newPos)) {
             dispatchMove(direction, newPos);
+            if (containType(newPos, [2, 4])) {
+                store.dispatch({
+                    type: 'MODIFY_BOMB_POWER',
+                    payload: {
+                        bombPower: bombPower + 1
+                    }
+                })
+            }
+            if (containType(newPos, [11])) {
+                store.dispatch({
+                    type: 'GAME_OVER'
+                })
+            }
         }
+    };
+
+    const containType = (newPos, types) => {
+        const tiles = store.getState().map.tiles;
+
+        const x = newPos[0] / SPRITE_SIZE;
+        const y = newPos[1] / SPRITE_SIZE;
+        if (types.includes(tiles[y][x].type)) {
+            store.dispatch({
+                type: 'PLACE_OBJECT',
+                payload: {
+                    position: newPos,
+                    object: customTile()
+                }
+            });
+            return true;
+        }
+        return false;
+
     };
 
     const handleKeydown = (e) => {
@@ -94,13 +136,14 @@ const handleMovement = (player) => {
                 e.preventDefault();
                 return attemptMove('SOUTH');
             default:
-                console.log(e.keyCode)
+
         }
     };
 
     window.addEventListener('keydown', (e) => {
         handleKeydown(e);
     });
+
 
     return player;
 };
