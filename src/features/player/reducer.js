@@ -7,7 +7,8 @@ const initialState = {
     walkIndex: 0,
     bombPower: DEFAULT_BOMB_POWER,
     bombTimeout: BOMB_TIMEOUT,
-    maximumBombs: DEFAULT_MAXIMUM_BOMBS
+    maximumBombs: DEFAULT_MAXIMUM_BOMBS,
+    gameOver: false
 };
 
 const playerReducer = (state = initialState, action) => {
@@ -16,10 +17,16 @@ const playerReducer = (state = initialState, action) => {
             return {
               ...state, ...action.payload
             };
-        case 'INCREASE_BOMB_POWER':
+        case 'MODIFY_BOMB_POWER':
             return {
                ...state, ...action.payload
             };
+        case 'GAME_OVER':
+            return {
+                ...state, gameOver: true
+            };
+        case 'NEW_GAME':
+            return initialState;
         default:
             return state;
     }

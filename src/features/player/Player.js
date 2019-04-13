@@ -5,6 +5,11 @@ import handleMovement from './movement';
 import handleControl from "./control";
 
 const Player = (props) => {
+
+    if (props.gameOver) {
+        return null;
+    }
+
     return (
         <div style={{
             position: 'absolute',

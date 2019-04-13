@@ -1,12 +1,23 @@
-import React, {Component} from 'react';
-import World from "./features/world/World";
+import React, {Component, Suspense} from 'react';
+import HomeScreen from "./components/HomeScreen/HomeScreen";
 
-
+const LazyWorld = React.lazy(() => import("./features/world/World"));
 class App extends Component {
+
+    state = {loggedIn: true};
+
+    onPlayButtonClick = () => {
+        this.setState({loggedIn: true})
+    };
+
     render() {
         return (
             <div>
-                <World />
+                {this.state.loggedIn ? (
+                    <Suspense fallback={<h1>Loading...</h1>}>
+                        <LazyWorld />
+                    </Suspense>
+                    ) : (<HomeScreen onPlayButtonClick={this.onPlayButtonClick}/>)}
             </div>
         );
     }

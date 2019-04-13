@@ -3,7 +3,7 @@ import {BOMB_TIMEOUT, DEFAULT_BOMB_POWER, SPRITE_SIZE} from "../../config/consta
 import uid from 'uid';
 
 export const getRandomMapTile = () => {
-    const tilesIndexes = [0, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const tilesIndexes = [0, 3, 4, 2, 5, 6, 0, 0];
     const winnerNumber = tilesIndexes[Math.floor(Math.random() * tilesIndexes.length)];
     if (getTileSprite(winnerNumber) === 'bomb') {
         return getBombTile();
@@ -13,14 +13,15 @@ export const getRandomMapTile = () => {
 };
 
 export const getBombTile = (timer = BOMB_TIMEOUT, power = DEFAULT_BOMB_POWER) => {
-    return customTile(10, timer, power);
+    return customTile(10, timer, power, true);
 };
 
-export const customTile = (type = 0, timer = 0, power = 0) => {
+export const customTile = (type = 0, timer = 0, power = 0, imposible = false ) => {
     return {
         type,
         timer,
         power,
+        imposible,
         id: uid(10)
     }
 };
@@ -37,6 +38,8 @@ export const getTileSprite = (type) => {
             return 'tree';
         case 4:
             return 'chest';
+        case 2:
+            return 'hamster';
         case 5:
             return 'rock';
         case 6:

@@ -25,6 +25,9 @@
 .chest {
     background-image: url('./tiles/chest.png');
 }
+.hamster {
+    background-image: url('./tiles/hamster-ball.svg');
+}
 
 .bomb {
     background-image: url('./tiles/bomb.svg');

@@ -2,7 +2,6 @@ import {getRandomMapTile} from "../../../features/map/MapTile";
 
 
 export const generateDynamicMap = (width, height) => {
-    console.log({width, height});
     const map = [];
     for (let y = 0; y < height; y++) {
         map[y] = [];

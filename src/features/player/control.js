@@ -4,19 +4,33 @@ import {EXPLOSION_VISIBLE, SPRITE_SIZE} from "../../config/constants";
 
 const handleControl = (player) => {
 
+    const canPlaceBomb = (position, tiles) => {
+        return tiles[position[1] / SPRITE_SIZE][position[0] / SPRITE_SIZE].type !== 10
+    };
+
     const placeBomb = () => {
         const {position, bombPower, bombTimeout} = store.getState().player;
         const tiles = store.getState().map.tiles;
         const bomb = getBombTile(bombTimeout, bombPower);
-        dispatchPlaceBomb(position, bomb);
-        setTimeout(() => {
-            const x = position[1] / SPRITE_SIZE;
-            const y = position[0] / SPRITE_SIZE;
-            dispatchBombExplode(boom(tiles, bomb.power, [y, x], customTile(11)));
+
+        if (canPlaceBomb(position, tiles)) {
+            dispatchPlaceBomb(position, bomb);
+            store.dispatch({
+                type: 'MODIFY_BOMB_POWER',
+                payload: {
+                    bombPower: (bombPower > 1) ? bombPower - 1 : bombPower
+                }
+            });
             setTimeout(() => {
-                dispatchBombExplode(boom(Array.from(tiles), bomb.power, [y, x], customTile(0)))
-            }, EXPLOSION_VISIBLE);
-        }, bomb.timer);
+                const x = position[1] / SPRITE_SIZE;
+                const y = position[0] / SPRITE_SIZE;
+                dispatchBombExplode(boom(tiles, bomb.power, [y, x], customTile(11)));
+                setTimeout(() => {
+                    dispatchBombExplode(boom(Array.from(tiles), bomb.power, [y, x], customTile(0)))
+                }, EXPLOSION_VISIBLE);
+            }, bomb.timer);
+        }
+
 
     };
 
@@ -46,6 +60,15 @@ const handleControl = (player) => {
             }
         }
         tiles[position[1]][position[0]] = tile;
+
+        const newPos = store.getState().player.position;
+        const x = newPos[0] / SPRITE_SIZE;
+        const y = newPos[1] / SPRITE_SIZE;
+        if (tiles[y][x].type === 11) {
+            store.dispatch({
+                type: 'GAME_OVER'
+            })
+        }
         return tiles;
     };
 

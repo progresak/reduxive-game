@@ -30,7 +30,7 @@ const handleMovement = (player) => {
         const y = newPos[1] / SPRITE_SIZE;
         const x = newPos[0] / SPRITE_SIZE;
         const nextTile = tiles[y][x];
-        return nextTile.type < 5;
+        return nextTile.type < 5 || nextTile.type === 11;
     };
 
     const getWalkIndex = () => {
@@ -81,30 +81,35 @@ const handleMovement = (player) => {
         const newPos = walkThroughBorders(getNewPosition(oldPos, direction), mapSize);
         if (observeImpossable(oldPos, newPos)) {
             dispatchMove(direction, newPos);
-            if (containBoost(newPos)) {
+            if (containType(newPos, [2, 4])) {
                 store.dispatch({
-                    type: 'INCREASE_BOMB_POWER',
+                    type: 'MODIFY_BOMB_POWER',
                     payload: {
                         bombPower: bombPower + 1
                     }
                 })
             }
+            if (containType(newPos, [11])) {
+                store.dispatch({
+                    type: 'GAME_OVER'
+                })
+            }
         }
     };
 
-    const containBoost = (newPos) => {
+    const containType = (newPos, types) => {
         const tiles = store.getState().map.tiles;
 
         const x = newPos[0] / SPRITE_SIZE;
         const y = newPos[1] / SPRITE_SIZE;
-        if (tiles[y][x].type === 4) {
+        if (types.includes(tiles[y][x].type)) {
             store.dispatch({
                 type: 'PLACE_OBJECT',
                 payload: {
                     position: newPos,
                     object: customTile()
                 }
-            })
+            });
             return true;
         }
         return false;
@@ -137,8 +142,8 @@ const handleMovement = (player) => {
 
     window.addEventListener('keydown', (e) => {
         handleKeydown(e);
-
     });
+
 
     return player;
 };
