@@ -1,6 +1,7 @@
 .tile {
     display: inline-flex;
     background-color: transparent;
+    background-size: 40px 40px;
 }
 
 .mapContainer {
@@ -25,15 +26,17 @@
 .chest {
     background-image: url('./tiles/chest.png');
 }
-.hamster {
-    background-image: url('./tiles/hamster-ball.svg');
+.crown {
+    background-image: url('./tiles/003-crowns.png');
 }
 
 .bomb {
-    background-image: url('./tiles/bomb.svg');
-    background-size: 40px 40px;
+    background-image: url('./tiles/002-bomb.png');
 }
+
 .explosion {
     background-image: url('./tiles/explosion.png');
-    background-size: 40px 40px;
+}
+.upgrade {
+    background-image: url('./tiles/001-system-update.png');
 }

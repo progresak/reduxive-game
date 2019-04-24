@@ -2,9 +2,12 @@ import React from 'react';
 import {BOMB_TIMEOUT, DEFAULT_BOMB_POWER, SPRITE_SIZE} from "../../config/constants";
 import uid from 'uid';
 
-export const getRandomMapTile = () => {
-    const tilesIndexes = [0, 3, 4, 2, 5, 6, 0, 0];
+export const getRandomMapTile = (abadonedTile) => {
+    const tilesIndexes = [0, 3, 4, 2, 5, 6, 0, 0, 7, 0, 0, 0, 0, 0, 0];
     const winnerNumber = tilesIndexes[Math.floor(Math.random() * tilesIndexes.length)];
+    if (abadonedTile !== undefined && abadonedTile.includes(winnerNumber)) {
+        return getRandomMapTile(abadonedTile);
+    }
     if (getTileSprite(winnerNumber) === 'bomb') {
         return getBombTile();
     } else {
@@ -39,11 +42,13 @@ export const getTileSprite = (type) => {
         case 4:
             return 'chest';
         case 2:
-            return 'hamster';
+            return 'crown';
         case 5:
             return 'rock';
         case 6:
             return 'tree';
+        case 7:
+            return 'upgrade';
         default:
             return "grass";
     }

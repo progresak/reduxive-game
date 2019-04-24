@@ -2,7 +2,7 @@
   "name": "master-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost/master-game/build/",
+  "homepage": "http://master-bomberman.s3-website-eu-west-1.amazonaws.com/",
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -15,6 +15,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "aws s3 sync build/ s3://master-bomberman",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
