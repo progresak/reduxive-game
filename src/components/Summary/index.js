@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles.css';
 import store from "../../config/store";
-import {generateDynamicMap} from "../../data/maps/3";
+import {generateDynamicMap} from "../map/mapGenerator"
 import {SPRITE_SIZE} from "../../config/constants";
 import {connect} from "react-redux";
 

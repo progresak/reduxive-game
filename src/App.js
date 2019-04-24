@@ -1,7 +1,7 @@
 import React, {Component, Suspense} from 'react';
 import HomeScreen from "./components/HomeScreen/HomeScreen";
 
-const LazyWorld = React.lazy(() => import("./features/world/World"));
+const LazyWorld = React.lazy(() => import("./components/world/World"));
 class App extends Component {
 
     state = {loggedIn: true};
