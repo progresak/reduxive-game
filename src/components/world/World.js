@@ -9,6 +9,7 @@ import { SPRITE_SIZE } from '../../config/constants';
 import ScoreBoard from '../ScoreBoard';
 import Summary from '../Summary';
 
+//test
 const World = () => {
   const tiles = generateDynamicMap(
     Math.floor(window.innerWidth / SPRITE_SIZE) - 1,
