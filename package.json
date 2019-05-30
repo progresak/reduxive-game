@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "http://master-bomberman.s3-website-eu-west-1.amazonaws.com/",
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
@@ -27,5 +28,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "eslint-config-airbnb": "^17.1.0"
+  }
 }
