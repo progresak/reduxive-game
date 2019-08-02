@@ -1,68 +1,72 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Navigator VSCode editor Debugging
 
-## Available Scripts
+## Setup environment
 
-In the project directory, you can run:
+### 1) Instal `Debugger for Chrome` Extension for VSCode
 
-### `npm start`
+- In editor - Go to Extensions window
+- Search for `Debugger for Chrome`
+- Install
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2) Create `launch.json` debug configuration
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- In editor - Go to Debug window
+- `Add configuration` - will open `launch.json` configuration file
+- Insert this object into `configurations` array. (Values depends on OS)
 
-### `npm test`
+```json
+    {
+        "name": "Attach to chrome",
+        "type": "chrome",
+        "request": "attach",
+        "port": 9222,
+        "urlFilter": "localhost:8080/*",
+        "webRoot": "ABSOLUTE-PATH-TO-mews-js-FOLDER",
+        "trace": true,
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+            "webpack:///./*": "${webRoot}/packages/mews-navigator/web-app/*"
+        }
+    }
+```
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3) Run your application with devtool: 'source-map'
 
-### `npm run build`
+Instead of running `yarn start` **run** `yarn start:debug`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+It will runs webpack-dev-server with option `devtool: 'source-map'` which allows VSCode to debug code in editor.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3) Run Google Chrome with debugging enabled
 
-### `npm run eject`
+Close all chrome processes and then:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Windows**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Right click the Chrome shortcut, and select properties
+In the "target" field, append `--remote-debugging-port=9222`
+Or in a command prompt, execute `<path to chrome>/chrome.exe --remote-debugging-port=9222`
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**macOS**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+In a terminal, execute `/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222`
 
-## Learn More
+**Linux**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+In a terminal, launch `google-chrome --remote-debugging-port=9222`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Then open `http://localhost:8080/` in this chrome window
 
-### Code Splitting
+Thats' it. Happy debbuging.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## How to debug
 
-### Analyzing the Bundle Size
+1) Run your configuration
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- Run your newly created debug configuration
+- It will attach your chrome browser
+- place breakpoints to your code
+- In chrome - Refresh the page or do action which will trigger the breakpoint
 
-### Making a Progressive Web App
+- Tadáá
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
