@@ -2,7 +2,7 @@
   "name": "master-game",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://master-bomberman.s3-website-eu-west-1.amazonaws.com/",
+  "homepage": "./",
   "dependencies": {
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
